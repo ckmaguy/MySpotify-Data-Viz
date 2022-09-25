@@ -38,13 +38,15 @@ def artistpie(artistname):
         mask=stream_hist['artistName'].str.contains(artistname)
         res=stream_hist[mask]
         fig = px.pie(res, values='msPlayed', names='trackName', color_discrete_sequence=px.colors.sequential.RdBu)
+        fig.update_traces(textposition='inside', textinfo='percent+label')
         fig.show()
 
 @st.cache(suppress_st_warning=True)
 def songpie(song):
     mask = stream_hist['trackName'].str.contains(song)
     res=stream_hist[mask]
-    fig = px.pie(res, values='msPlayed', names='trackName', color_discrete_sequence=px.colors.sequential.RdBu)
+    fig = px.pie(res, values='msPlayed', names='trackName',hole=0.3,color_discrete_sequence=px.colors.sequential.RdBu)
+    fig.update_traces(textposition='inside', textinfo='percent+label')
     fig.show()
 
 @st.cache(suppress_st_warning=True)
@@ -119,7 +121,7 @@ with st.sidebar:
 
     st.title('Links')
     st.write("[Linkedin](https://www.linkedin.com/in/kadidia-coulibaly-b2383b217/)")
-    st.write("[Github](https://github.com/ckmaguy/Spotify-Data-Viz)")
+    st.write("[Github](https://github.com/ckmaguy/MySpotify-Data-Viz)")
     st.write("[Spotify profil](https://open.spotify.com/user/maguycoul?si=5cf564998dfd42d1)")
 
     
@@ -129,16 +131,16 @@ with st.sidebar:
 def searchTools():
     st.header('Search by artist name')
     artist = st.text_input('Name of the artist', 'Artist Name')
-    st.write('Here the results for', artist)
+    st.write('Here are the results for', artist)
     result=artistSearch(artist)
     st.write(result)
-    if len(result)>0:
-        st.subheader(artist +' count graph ')
-        st.pyplot(artistSongcount(artist))
+    #if len(result)>0:
+    #    st.subheader(artist +' count graph ')
+    #    st.pyplot(artistSongcount(artist))
 
     st.header('Song search')
     song = st.text_input('song', 'string')
-    st.write('Here the results for', song)
+    st.write('Here are the results for', song)
     st.write(songSearch(song))
 
 searchTools()
@@ -285,4 +287,3 @@ def pies():
         songPie()
 
 pies()
-
